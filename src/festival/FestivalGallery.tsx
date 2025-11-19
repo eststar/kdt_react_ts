@@ -25,7 +25,7 @@ export default function TourGallery() {
     //카드 출력용
     const [cardTags, setCardTags] = useState<React.ReactNode[]>([]);
     //선택 단어
-    const districtRef = useRef<HTMLSelectElement>(null);/* prevDistrict() ?? "waitSelect" */
+    const districtRef = useRef<HTMLSelectElement>("waitSelect");/* prevDistrict() ?? "waitSelect" */
 
     //기본 키없고, 불러올 데이터행 숫자 설정 없는 url
     const baseUrl = "https://apis.data.go.kr/6260000/FestivalService/getFestivalKr"

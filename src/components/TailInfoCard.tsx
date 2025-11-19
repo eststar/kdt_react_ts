@@ -1,8 +1,15 @@
 import { Link, useLocation } from "react-router-dom"
 
-interface statType { [key: string]: { msg: string; style: string } };
-type statusMapType = (key: string)=> statType
-const statusMap: statusMapType = {
+interface StatusInfo {
+  msg: string;
+  style: string;
+}
+
+type StatusMap = {
+  [key: string]: StatusInfo;
+};
+
+const statusMap: StatusMap = {
   '1': {
     msg: "⚠️ 통신이상",
     style: "bg-red-100 text-red-700 border-red-300"
@@ -30,7 +37,7 @@ const statusMap: statusMapType = {
   },
 };
 
-const getStatusInfo = (statusCode: string) => {
+const getStatusInfo = (statusCode: string): StatusInfo => {
   return statusMap[statusCode] || {
     msg: "상태 정보 없음",
     style: "bg-gray-100 text-gray-500 border-gray-300"
@@ -44,8 +51,7 @@ export default function TailInfoCard() {
   const kakaoMapUrl = `https://map.kakao.com/link/map/` +
     `${info.statNm.replace(',', '').replace(' ', '')}${info.statId.replace(',', '').replace(' ', '')},${info.lat},${info.lng}`;
 
-  // type statusStyle = keyof typeof status;
-  const status : statType = getStatusInfo(info.stat);
+  const status : StatusInfo = getStatusInfo(info.stat);
   return (
     <div className="w-full p-5 flex justify-center">
       <div className="w-full md:max-w-2xl bg-white shadow-lg rounded-xl p-6 sm:p-8">

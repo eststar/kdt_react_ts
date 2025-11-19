@@ -1,4 +1,3 @@
-import FestivalContents from "./FestivalContents"
 
 export interface FestivalType {
     "UC_SEQ": number,
