@@ -5,12 +5,15 @@ const ballColor = [
   "bg-gray-500 text-white", //30~39
   "bg-green-500 text-white", //40~49
   "bg-white-500 text-black" //50~ -> '+'
-]
+] as const;
 
-export default function TailBall({lottoNum}) {
+interface TailBallProps {
+  lottoNum : number | undefined,
+}
+export default function TailBall({lottoNum} : TailBallProps) {
     
   return (
-    <div className={`h-20 w-20 rounded-full ${ballColor[Math.floor(lottoNum/10)]} text-xl font-bold  flex justify-center items-center`}>
+    <div className={`h-20 w-20 rounded-full ${lottoNum && ballColor[Math.floor(lottoNum/10)]} text-xl font-bold  flex justify-center items-center`}>
       {(lottoNum == 50)? '+' : lottoNum}
     </div>
   )

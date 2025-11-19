@@ -4,12 +4,12 @@ import { useState } from 'react';
 
 export default function Lotto() {
 
-  const [lottoArr, setlottoArr] = useState([]); //버튼클릭하면 값을 생성해서 바뀔 배열 변수
+  const [lottoArr, setlottoArr] = useState<React.ReactElement[]>([]); //버튼클릭하면 값을 생성해서 바뀔 배열 변수
 
   const generateLotto = () => {
     let tempNum;
-    let numArr = [];
-    const numSet = new Set();
+    let numArr : number[] = [];
+    const numSet : Set<number> = new Set();
     while(numSet.size < 7){
       tempNum = Math.floor(Math.random() * 45 + 1);
       numSet.add(tempNum);
@@ -24,7 +24,7 @@ export default function Lotto() {
     );
     
     let resultArr = [...tempArr, <div className={`h-20 w-20 rounded-full bg-white-500 text-black text-xl font-bold  flex justify-center items-center`} key="plus">+</div>];
-    resultArr = [...resultArr, <TailBall lottoNum={bonusNum} key={bonusNum}/>];
+    resultArr = [...resultArr, <TailBall lottoNum={bonusNum ? bonusNum : undefined} key={bonusNum}/>];
     
     // //난수 생성
     // while (numArr.length < 8) {

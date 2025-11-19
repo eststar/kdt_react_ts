@@ -1,10 +1,25 @@
-import { useRef } from "react";
 
-export default function TailSelect({ id, ref, caption, keyData, valData, onhandle }) {
+interface TailSelectProps {
+  id : string, 
+  ref : React.RefObject<HTMLSelectElement>, 
+  caption : string, 
+  keyData : string[], 
+  valData : string[], 
+  onhandle : () => void
+}
 
-  const makeOptions = valData == "" ? "" : valData.map((el, idx) =>
-    <option key={el} value={keyData[idx]}>{el}</option>
-  );
+export default function TailSelect({ id, ref, caption, keyData, valData, onhandle } : TailSelectProps) {
+  // const makeOptions : string | React.ReactElement[] = valData == "" ? "" : valData.map((el, idx) =>
+  //   <option key={el} value={keyData[idx]}>{el}</option> 
+  // );
+
+   const makeOptions = Array.isArray(valData)
+    ? valData.map((el, idx) => (
+        <option key={keyData[idx]} value={keyData[idx]}>
+          {el}
+        </option>
+      ))
+    : null;
 
   return (
     <div className="grid-rows-2 p-2">

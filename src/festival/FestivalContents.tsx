@@ -1,5 +1,6 @@
 import { useLocation,Link, useNavigate } from "react-router-dom"
 import TailButton from "../components/TailButton";
+import type { FestivalType } from "./FestivalType";
 
 export default function FestivalContents() {
     const loc = useLocation();

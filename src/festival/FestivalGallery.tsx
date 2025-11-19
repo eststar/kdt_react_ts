@@ -1,8 +1,11 @@
 import TailCard from "../components/TailCard"
 // import FestivalContents from "./FestivalContents";
+import type { FestivalType } from "./FestivalType";
+import type { FestivalDataType } from "./FestivalType";
 
 import { useState, useEffect, useRef } from "react"
 import { Link, useLocation, useSearchParams } from "react-router-dom";
+
 
 const apiKey = import.meta.env.VITE_PUBLICDATA_API_KEY;
 export default function TourGallery() {
@@ -13,16 +16,16 @@ export default function TourGallery() {
     const prevDistrict = queryDistrict.get("curDistrict");
 
     //fetch해서 받아올 전체 데이터    
-    const [data, setData] = useState();
+    const [data, setData] = useState<FestivalDataType[]>();
      //받아올 축제 데이터 총개수. 시작시 하나만 받아와서 전체 데이터 개수 정보 알아옴
-    const [numRows, setNumRows] = useState();
+    const [numRows, setNumRows] = useState(0);
     
     //축제 정보    
-    const [pData, setPData] = useState([]);
+    const [pData, setPData] = useState<FestivalType[]>([]);
     //카드 출력용
-    const [cardTags, setCardTags] = useState([]);
+    const [cardTags, setCardTags] = useState<React.ReactNode[]>([]);
     //선택 단어
-    const districtRef = useRef(/* prevDistrict() ?? "waitSelect" */);
+    const districtRef = useRef<HTMLSelectElement>(null);/* prevDistrict() ?? "waitSelect" */
 
     //기본 키없고, 불러올 데이터행 숫자 설정 없는 url
     const baseUrl = "https://apis.data.go.kr/6260000/FestivalService/getFestivalKr"
@@ -88,7 +91,7 @@ export default function TourGallery() {
     };
 
     //지역구 선택했는데 아직 fetch 안됨
-    const handleClick = (e)=>{
+    const handleClick = (e : Event)=>{
         e.preventDefault();
         if(!pData || pData.length <= 0)
             alert("데이터 받는중...");

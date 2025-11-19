@@ -1,9 +1,20 @@
-export default function TailCard({url, title, subtitle, infos }) {
-  const data =infos.split(",");  
 
+interface TailCardProps {
+  url : string,
+  title : string,
+  subtitle : string,
+  infos : string
+}
+
+
+export default function TailCard({url, title, subtitle, infos } : TailCardProps) {
+
+  const data : Array<String> =infos.split(",");  
+
+  type keyTags = () => React.ReactElement | React.ReactElement[];
   const keyTags = () => {
     if (!infos || data.length <=0)
-      return;
+      return <></>;
     return (data.map((el) => <div key={el.replaceAll(" ", "")}
       className="py-1 px-2 rounded-2xl bg-gray-200">{el.trim()}</div>))
   };
