@@ -1,4 +1,6 @@
-
+// export interface FestivalType {
+//     [key : string] : string | number
+// }
 export interface FestivalType {
     "UC_SEQ": number,
     "MAIN_TITLE": string,

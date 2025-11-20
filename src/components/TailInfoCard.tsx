@@ -41,7 +41,7 @@ const statusMap: StatusMap = {
     msg: "❓ 상태 미확인",
     style: "bg-gray-200 text-gray-600 border-gray-400"
   },
-};
+} as const;
 
 const getStatusInfo = (statusCode: string): StatusInfo => {
   return statusMap[statusCode] || {

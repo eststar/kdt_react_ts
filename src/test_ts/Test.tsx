@@ -67,7 +67,7 @@ export default function Test() {
                 <li>방향 : {direction}</li>
                 <li>방향1 : {direction1}</li>
             </ul>
-            <button className="bg-blue-500 cursor-pointer hover: bg-amber-600 p-2 rounded text-white"
+            <button className="bg-blue-500 cursor-pointer hover:bg-amber-600 p-2 rounded text-white"
                 onClick={handleClick}>클릭</button>
         </div>
     )

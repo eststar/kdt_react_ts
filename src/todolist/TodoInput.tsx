@@ -7,7 +7,7 @@ interface TodoInputProps {
 }
 
 export default function TodoInput({handleSave} : TodoInputProps) {
-    const inRef = useRef<HTMLInputElement>(null);
+    const inRef = useRef<HTMLInputElement | null>(null);
 
     const addTodo = async ()=>{
         if(inRef.current?.value == ""){
