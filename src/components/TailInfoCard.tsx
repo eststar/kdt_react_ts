@@ -6,7 +6,13 @@ interface StatusInfo {
 }
 
 type StatusMap = {
-  [key: string]: StatusInfo;
+  [key: string]: StatusInfo
+  // '1' : StatusInfo ,
+  // '2' : StatusInfo ,
+  // '3' : StatusInfo ,
+  // '4' : StatusInfo ,
+  // '5' : StatusInfo ,
+  // '9' : StatusInfo ,
 };
 
 const statusMap: StatusMap = {

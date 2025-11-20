@@ -7,7 +7,7 @@ export default function Lotto() {
   const [lottoArr, setlottoArr] = useState<React.ReactElement[]>([]); //버튼클릭하면 값을 생성해서 바뀔 배열 변수
 
   const generateLotto = () => {
-    let tempNum;
+    let tempNum : number;
     let numArr : number[] = [];
     const numSet : Set<number> = new Set();
     while(numSet.size < 7){

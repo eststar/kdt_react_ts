@@ -1,20 +1,28 @@
 import TailButton from "../components/TailButton";
 import { useRef } from "react";
+import type { TodoData } from "./todoType";
 
-export default function TodoInput({handleSave}) {
-    const inRef = useRef("");
+interface TodoInputProps {
+    handleSave : (newitem :TodoData)=> Promise<number>,
+}
 
-    const addTodo = ()=>{
-        if(inRef.current.value == ""){
+export default function TodoInput({handleSave} : TodoInputProps) {
+    const inRef = useRef<HTMLInputElement>(null);
+
+    const addTodo = async ()=>{
+        if(inRef.current?.value == ""){
             alert("값을 입력해주세요")
             inRef.current.focus();
             return;
         }
-        const newitem = { id: `${Date.now()}`, text: `${inRef.current.value}`, completed: false};
+        const newitem : TodoData= { id: Date.now(), text: `${inRef.current?.value}`, completed: false};
         // const newList = [...data, newitem];
-        if ( handleSave(newitem) == 1 ) {
-            inRef.current.value = "";
-            inRef.current.focus();
+        const success = await handleSave(newitem);
+        if ( success == 1 ) {
+            if (inRef.current) {
+                inRef.current.value = "";
+                inRef.current.focus();
+            }
         }        
     };
     

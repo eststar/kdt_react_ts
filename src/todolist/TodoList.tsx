@@ -7,12 +7,14 @@ import { supabase } from "../mysupabase/client";
 // const baseURL = import.meta.env.VITE_SUPABASE_URL;
 // const supabaseAPIKey = import.meta.env.VITE_SUPABASE_API_KEY;
 // const restAPILine = "/rest/v1/todos";
+import type { TodoData } from "./todoType";
+
 export default function () {
-    const [todos, setTodos] = useState([]);
+    const [todos, setTodos] = useState<TodoData[]>([]);
     const [todoCnt, setTodoCnt] = useState(0);
     const [todoInComp, setTodoInComp] = useState(0);
     const [todoComp, setTodoComp] = useState(0);
-    const [todoList, setTodoList] = useState();
+    const [todoList, setTodoList] = useState<React.ReactElement[]>();
 
     const getTodos = async () => {
         const { data, error } = await supabase
@@ -27,7 +29,7 @@ export default function () {
         }
     };
 
-    const postTodo = async (newData) => {
+    const postTodo = async (newData : TodoData) : Promise<number>=> {
         const { error } = await supabase
             .from('todos')
             .insert([
@@ -42,7 +44,7 @@ export default function () {
         }
     };
 
-    const patchTodo = async (newData) => {
+    const patchTodo = async (newData : TodoData) => {
         const { error } = await supabase
             .from('todos')
             .update({ text: newData.text, completed: newData.completed })
@@ -53,7 +55,7 @@ export default function () {
             getTodos();
     };
 
-    const deleteTodo = async (newData) => {
+    const deleteTodo = async (newData : TodoData) => {
         const { error } = await supabase
             .from('todos')
             .delete()
@@ -76,7 +78,7 @@ export default function () {
 
         setTodoList(
             todos.map((item) =>
-                <TodoItem key={item.id} data={todos} curData={item} handleEdit={patchTodo} handleDelete={deleteTodo} />)
+                <TodoItem key={item.id} curData={item} handleEdit={patchTodo} handleDelete={deleteTodo} />)
         );
     }, [todos]);
 

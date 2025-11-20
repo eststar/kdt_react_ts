@@ -1,9 +1,16 @@
 import TailButton from "../components/TailButton";
 import { useState } from "react";
+import type { TodoData } from "./todoType";
 
-export default function TodoItem({ curData, handleEdit, handleDelete}) {
+interface TodoItemsProps {
+    curData : TodoData, 
+    handleEdit : (newData : TodoData)=> void, 
+    handleDelete : (newData : TodoData)=> void,
+}
+
+export default function TodoItem({ curData, handleEdit, handleDelete} : TodoItemsProps) {
     
-    const [isEdit, setIsEdit] = useState(false);
+    const [isEdit, setIsEdit] = useState<boolean>(false);
     const [editingTxt, setEditingTxt] = useState(curData.text);
     
     const editTodo = ()=>{
@@ -24,12 +31,12 @@ export default function TodoItem({ curData, handleEdit, handleDelete}) {
     return (
         <div className="w-full grid grid-cols-3 md:grid-cols-5 lg:grid-cols-10 gap-2 border border-slate-800 border-solid rounded p-2">
             <div className="col-span-1 md:col-span-3 lg:col-span-8 flex justify-start w-full gap-2">
-                <input id={curData.id} type="checkbox" name={curData.text} checked={curData.completed} onChange={handleToggle}/>
+                <input id={ curData.id.toString()} type="checkbox" name={curData.text} checked={curData.completed} onChange={handleToggle}/>
                 {isEdit ? <input 
                     className="flex-1 border-2 border-fuchsia-300 bg-fuchsia-50 border-solid p-2 rounded focus:bg-amber-200 focus:border-orange-700 outline-none"
                     type="text" value={editingTxt} 
                     onChange={(e) => setEditingTxt(e.target.value)} />
-                    : <label htmlFor={curData.id} className={`flex justify-center items-center ${ curData.completed ? "line-through": ""}`}>{curData.text}</label>
+                    : <label htmlFor={curData.id.toString()} className={`flex justify-center items-center ${ curData.completed ? "line-through": ""}`}>{curData.text}</label>
                 }
             </div>
             <div className="w-full col-span-2 grid grid-rows-1 grid-cols-2 gap-2">

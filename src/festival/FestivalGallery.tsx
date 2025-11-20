@@ -4,7 +4,7 @@ import type { FestivalType } from "./FestivalType";
 import type { FestivalDataType } from "./FestivalType";
 
 import { useState, useEffect, useRef } from "react"
-import { Link, useLocation, useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 
 
 const apiKey = import.meta.env.VITE_PUBLICDATA_API_KEY;
@@ -18,17 +18,17 @@ export default function TourGallery() {
     //fetch해서 받아올 전체 데이터    
     const [data, setData] = useState<FestivalDataType[]>();
      //받아올 축제 데이터 총개수. 시작시 하나만 받아와서 전체 데이터 개수 정보 알아옴
-    const [numRows, setNumRows] = useState(0);
+    const [numRows, setNumRows] = useState<number>();
     
     //축제 정보    
     const [pData, setPData] = useState<FestivalType[]>([]);
     //카드 출력용
-    const [cardTags, setCardTags] = useState<React.ReactNode[]>([]);
+    const [cardTags, setCardTags] = useState<React.ReactElement[]>([]);
     //선택 단어
-    const districtRef = useRef<HTMLSelectElement>("waitSelect");/* prevDistrict() ?? "waitSelect" */
+    const districtRef = useRef<HTMLSelectElement>(null);/* prevDistrict() ?? "waitSelect" */ //useRef 초기값 반드시 null
 
     //기본 키없고, 불러올 데이터행 숫자 설정 없는 url
-    const baseUrl = "https://apis.data.go.kr/6260000/FestivalService/getFestivalKr"
+    const baseUrl = "/dataApi/6260000/FestivalService/getFestivalKr"
         + "?pageNo=1&resultType=json";
 
     //fetch 함수
@@ -61,16 +61,19 @@ export default function TourGallery() {
     }, [numRows]);
 
     useEffect(()=>{
+        if( !districtRef.current ) return ;
         
-        if(prevDistrict && prevDistrict !== "waitSelect"){
+        const gu = districtRef.current.value ;
+        if(gu && prevDistrict && prevDistrict !== "waitSelect"){
             districtRef.current.value = prevDistrict;
             
-            const filteredData = pData.filter((item) => item.GUGUN_NM.includes(districtRef.current.value));        
-            setCardTags(filteredData.map((item, idx) => 
+            const filteredData = pData.filter((item) => item.GUGUN_NM.includes(gu));
+            const cards = filteredData.map((item, idx) => 
             <Link to="/FestivalGallery/Contents" state={{contents:item}} key={item.UC_SEQ + idx}>
                 <TailCard url={item.MAIN_IMG_THUMB} title={item.TITLE}
                     subtitle={item.TRFC_INFO} infos={item.USAGE_DAY_WEEK_AND_TIME} key={item.UC_SEQ} />
-            </Link>));
+            </Link>)  
+            setCardTags(cards);
         }
         
     },[data]);
@@ -78,20 +81,23 @@ export default function TourGallery() {
     //카드 생성
     const handleChange =()=>{
         //어차피 pData 없으면 다른 선택 메뉴 없음
-        if(districtRef.current.value === "waitSelect"){
+        if(districtRef.current?.value === "waitSelect"){
             setCardTags([]);
             return;
         }
-        const filteredData = pData.filter((item) => item.GUGUN_NM.includes(districtRef.current.value));        
-        setCardTags(filteredData.map((item, idx) => 
+        if( !districtRef.current ) return ;
+        const gu = districtRef.current.value ;
+        const filteredData = pData.filter((item) => item.GUGUN_NM.includes(gu));    
+        const cards = filteredData.map((item, idx) => 
             <Link to="/FestivalGallery/Contents" state={{contents:item}} key={item.UC_SEQ + idx}>
                 <TailCard url={item.MAIN_IMG_THUMB} title={item.TITLE}
                     subtitle={item.TRFC_INFO} infos={item.USAGE_DAY_WEEK_AND_TIME} key={item.UC_SEQ} />
-            </Link>));
+            </Link>)    
+        setCardTags(cards);
     };
 
     //지역구 선택했는데 아직 fetch 안됨
-    const handleClick = (e : Event)=>{
+    const handleClick = (e : React.MouseEvent<HTMLSelectElement>)=>{ //
         e.preventDefault();
         if(!pData || pData.length <= 0)
             alert("데이터 받는중...");
