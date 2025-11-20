@@ -1,4 +1,14 @@
 // export interface FestivalType {
+    // "UC_SEQ": number,
+    // "MAIN_TITLE": string,
+    // "GUGUN_NM": string,
+    // "LAT": number,
+    // "LNG": number,
+    // "PLACE": string,
+    // "TITLE": string,
+    // "SUBTITLE": string,
+    // "MAIN_PLACE": string,
+    // "ADDR1": string,
 //     [key : string] : string | number
 // }
 export interface FestivalType {
